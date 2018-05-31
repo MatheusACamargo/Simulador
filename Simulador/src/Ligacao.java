@@ -10,9 +10,10 @@ import java.util.Date;
 
 public class Ligacao {
     private Date inicio; //Data e hora de início da ligação
-    private Date prilig; //Data e hora de início da ligação
-    private Date atendido; //Data e hora que a ligação foi atendida
-    private Duration duracao; //Duração da ligação uma vez atendida
+    private Date prilig; //Data e hora de início da primeira ligação
+    private Date iniAtend; //Data e hora em que a ligação atendimento
+    private Date fimAtend; //Data e hora previstos para o final do atendimento
+    private long duracao; //Duração da ligação em segundos uma vez atendida
 
     public Ligacao(Date inicio) {
         this.inicio = inicio;
@@ -23,11 +24,29 @@ public class Ligacao {
         this.inicio = inicio;
         prilig = orig.getPrilig();
     }
+    
+    public void atende(Date iniAtend, long duracao){
+        this.iniAtend = iniAtend;
+        this.duracao = duracao;
+        //Define a data do final do atendimento com base na data/hora inicial e a duração prevista
+        fimAtend = new Date(iniAtend.getTime() + duracao*1000);
+    }
 
     public Date getPrilig() {
         return prilig;
     }
-    
-    
+
+    public long getDuracao() {
+        return duracao;
+    }
+
+    public Date getInicio() {
+        return inicio;
+    }
+
+    public Date getFimAtend() {
+        return fimAtend;
+    }
+
     
 }

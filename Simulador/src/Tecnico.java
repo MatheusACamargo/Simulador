@@ -9,11 +9,23 @@ public class Tecnico {
     Ligacao lig;//Ligação que está sendo atendida pelo técnico neste momento
 
     public Tecnico() {
-    
+
     }
 
     public boolean isOcupado() {
         return lig != null;
     }
+
+    public void atende(Ligacao lig){
+        this.lig = lig;
+    }
+
+    public void desliga(){
+        lig = null;
+    }
     
+    public Ligacao getLig() {
+        return lig;
+    }
+
 }
