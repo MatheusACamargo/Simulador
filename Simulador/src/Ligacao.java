@@ -32,6 +32,10 @@ public class Ligacao {
         fimAtend = new Date(iniAtend.getTime() + duracao*1000);
     }
 
+    public Date getInicio() {
+        return inicio;
+    }
+
     public Date getPrilig() {
         return prilig;
     }
@@ -40,8 +44,8 @@ public class Ligacao {
         return duracao;
     }
 
-    public Date getInicio() {
-        return inicio;
+    public Date getIniAtend() {
+        return iniAtend;
     }
 
     public Date getFimAtend() {
