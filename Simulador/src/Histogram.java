@@ -64,12 +64,13 @@ public class Histogram {
 
     private void setupMapHistory(Map<Integer, Integer> mapHistory, String titulo, Double[] data){
         JFrame frame = new JFrame(titulo);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(new JScrollPane(new Graph(mapHistory, data)));
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     protected class Graph extends JPanel {
@@ -134,7 +135,7 @@ public class Histogram {
                     g2d.setColor(Color.MAGENTA);
                     oldXForm = g2d.getTransform();
                     g2d.setTransform(AffineTransform.getRotateInstance(Math.toRadians(270), xPos+15, height));
-                    g2d.drawString(">"+String.format( "%.2f",step*key), xPos+15, height);
+                    g2d.drawString(">"+String.format( "%.2f    %d",step*key, value), xPos+15, height);
                     g2d.setTransform(oldXForm);
                     xPos += barWidth;
                 }

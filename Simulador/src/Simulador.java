@@ -1,26 +1,33 @@
-
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class Simulador {
+    //Parâmetros
+    private Integer fimAtendimentos;
+    private Integer fimAtendimentosTarde;
+    private Integer fimLigacoes;
+    private Integer fimLigacoesTarde;
+    private Integer iniAtendimentos;
+    private Integer iniAtendimentosTarde;
+    private Integer iniLigacoes;
+    private Integer iniLigacoesTarde;
+    private Integer numTecnicos;
+    private Float taxaAtend;
+    private Float taxaRegistro;
+    private boolean zeraFila;
+    private boolean estagManha;
+    private boolean estagTarde;
+    private Integer semente;
     //Constantes
-    private static final int NUM_TECNICOS = 3;
-    private static final int INI_LIGACOES =  75112;//Horário inicial de entrada das ligações
-    private static final int FIM_LIGACOES_MANHA = 113741;//Horário final de entrada das ligações
-    private static final int INI_LIGACOES_TARDE =  130127;//Horário inicial de entrada das ligações
-    private static final int FIM_LIGACOES = 173038;//Horário final de entrada das ligações
-    private static final int INI_ATENDIMENTOS =  80100;//Horário inicial de atendimentos das ligações
-    private static final int FIM_ATENDIMENTOS_MANHA = 115100;//Horário final de atendimentos das ligações
-    private static final int INI_ATENDIMENTOS_TARDE =  130200;//Horário inicial de atendimentos das ligações
-    private static final int FIM_ATENDIMENTOS = 173200;//Horário final de entrada das atendimentos
+    private static final int DURACAO_INDISPONIBILIDADE = 1100;
     //Campos de controle
     private SimpleDateFormat dateFormat;
     private Date tempo;
@@ -29,6 +36,7 @@ public class Simulador {
     private Random generator_criaLig;
     private Random generator_abortaLig;
     private Random generator_abortaEscolheLig;
+    private Random generator_abortaTempoRetorno;
     private Random generator_duraLig;
     private Random generator_duraLigExp;
     private Random generator_duraLigLin;
@@ -42,14 +50,35 @@ public class Simulador {
     private ArrayList<Tecnico> tecnicos; //Técnicos disponíveis
     private Date ligPrx; //Próximo horário previsto para entrada de ligação
 
-    private ArrayList<Double> test = new ArrayList<>();
+    public Simulador(Integer fimAtendimentos, Integer fimAtendimentosTarde, Integer fimLigacoes,
+            Integer fimLigacoesTarde, Integer iniAtendimentos, Integer iniAtendimentosTarde, Integer iniLigacoes,
+            Integer iniLigacoesTarde, Integer numTecnicos, Float taxaAtend, Float taxaRegistro, boolean zeraFila,
+            boolean estagManha, boolean estagTarde, Integer semente) {
+        this.fimAtendimentos = fimAtendimentos;
+        this.fimAtendimentosTarde = fimAtendimentosTarde;
+        this.fimLigacoes = fimLigacoes;
+        this.fimLigacoesTarde = fimLigacoesTarde;
+        this.iniAtendimentos = iniAtendimentos;
+        this.iniAtendimentosTarde = iniAtendimentosTarde;
+        this.iniLigacoes = iniLigacoes;
+        this.iniLigacoesTarde = iniLigacoesTarde;
+        this.numTecnicos = numTecnicos;
+        this.taxaAtend = taxaAtend;
+        this.taxaRegistro = taxaRegistro;
+        this.zeraFila = zeraFila;
+        this.estagManha = estagManha;
+        this.estagTarde = estagTarde;
+        this.semente = semente;
+    }
 
     public Simulador() {
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        tempo = new Date();
+
     }
 
     public void start(){
+        int diaSem = 0;
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        tempo = new Date();
         //Gera instâncias de ArrayList
         ligGeral = new ArrayList<>();
         ligEspera = new ArrayList<>();
@@ -57,9 +86,17 @@ public class Simulador {
         ligAbortadas = new ArrayList<>();
         ligEncerradas = new ArrayList<>();
         tecnicos = new ArrayList<>();
-        //Gera técnicos padrão
-        for (int i = 0; i < NUM_TECNICOS; i++) {
+        //Gera técnicos padrão, que trabalha em ambos os turnos
+        for (int i = 0; i < numTecnicos; i++) {
             tecnicos.add(new Tecnico());
+        }
+        //Gera estagiário da manhã
+        if(estagManha){
+            tecnicos.add(new Tecnico(true, false));
+        }
+        //Gera estagiário da tarde
+        if(estagTarde){
+            tecnicos.add(new Tecnico(false, true));
         }
         try {
             tempo = dateFormat.parse("2018-01-01 00:00:00");
@@ -75,10 +112,16 @@ public class Simulador {
             Logger.getLogger(Simulador.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Prepara geradores de números aleatórios
-        Random generator_seed = new Random(50);
+        Random generator_seed;
+        if(semente != 0){
+            generator_seed = new Random(semente);
+        }else{
+            generator_seed = new Random();
+        }
         generator_criaLig = new Random(generator_seed.nextLong());
         generator_abortaLig = new Random(generator_seed.nextLong());
         generator_abortaEscolheLig = new Random(generator_seed.nextLong());
+        generator_abortaTempoRetorno = new Random(generator_seed.nextLong());
         generator_duraLig = new Random(generator_seed.nextLong());
         generator_duraLigExp = new Random(generator_seed.nextLong());
         generator_duraLigLin = new Random(generator_seed.nextLong());
@@ -86,49 +129,48 @@ public class Simulador {
         generator_tecnicoAtivo = new Random(generator_seed.nextLong());
         //Varre da data inical até que chegue na data final
         while(cal.getTime().before(fin)){
-            try {
-                iteracao();
-                cal.add(Calendar.SECOND, 1);
-            } catch (IOException ex) {
-                Logger.getLogger(Simulador.class.getName()).log(Level.SEVERE, null, ex);
+            //Horário formatado para simplificar teste: hhmmss
+            horaAtual = cal.get(Calendar.HOUR_OF_DAY) * 10000 +
+                             cal.get(Calendar.MINUTE) * 100 +
+                             cal.get(Calendar.SECOND);
+            if(horaAtual == 0){
+                if(zeraFila){
+                    ligEspera.clear();
+                }
+                diaSem = cal.get(Calendar.DAY_OF_WEEK);
             }
+            //Se for dia de semana
+            if(diaSem > 1 && diaSem < 7){
+                iteracao();
+            }
+            cal.add(Calendar.SECOND, 1);
         }
-
         //Uma vez concluída a simulação, gera dados sobre os resultados (média, desvio padrão, etc...)
-//        estatisticaTestes();
         estatisticaLigacoes();
         estatisticaAtendimentos();
         estatisticaEspera();
     }
 
-    private void iteracao() throws IOException{
-        //Horário formatado para simplificar teste: hhmmss
-        horaAtual = cal.get(Calendar.HOUR_OF_DAY) * 10000 +
-                        cal.get(Calendar.MINUTE) * 100 +
-                        cal.get(Calendar.SECOND);
-
-        //Gerar desistência das ligações ainda não atendidas
-        //Gerar novas ligações conforme o horário (gerar inclusive mais de uma se necessário)
+    private void iteracao(){
+        //Gera novas ligações conforme o horário
         criaLig();
-        //Seleciona ligações em espera e aborta se necessário (cliente desiste da ligação atual)
-//        abortaLig();
-        //Seleciona ligações abortadas e gera novo registro de ligação (cliente retoma ligação abortada anteriormente)
-        recriaLig();
-        //Atualizar status dos técnicos (desligar ligações, passar para livre)
+        //Atualiza status dos técnicos
         encerraLig();
-        //Gerar atendimentos (vincular uma ligação no técnico)
+        //Libera técnicos que estavam indisponíveis
+        liberaTecnico();
+        //Gera atendimentos
         atendeLig();
-
-        //Três arrays para classificar as ligações
     }
 
     //Cria ligações conforme intervalo entre chegadas
     private void criaLig(){
-        //Ligação a sere gerada
+        //Ligação a ser gerada
         Ligacao nova;
         //Se a hora atual pertence ao intervalo em que houve chegada de ligações
-        if ((horaAtual > INI_LIGACOES && horaAtual < FIM_LIGACOES_MANHA) ||
-            (horaAtual > INI_LIGACOES_TARDE && horaAtual < FIM_LIGACOES)) {
+        if ((horaAtual > iniLigacoes && horaAtual < fimLigacoes) ||
+            (horaAtual > iniLigacoesTarde && horaAtual < fimLigacoesTarde)) {
+            //Verifica se deve recriar ligações que foram abortadas
+            recriaLig();
             //Se já chegou na hora de criar a próxima ligação
             if (ligPrx != null && ligPrx.before(cal.getTime())) {
                 nova = new Ligacao(cal.getTime());
@@ -147,24 +189,60 @@ public class Simulador {
     }
 
     //Seleciona ligações em espera e aborta se necessário (cliente desiste da ligação atual)
-    private void abortaLig(){
+    private boolean abortaLig(){
+        //Cria taxas de desistências medidas
+        final float TAXA_ABORTA = (float) 85/1949;
+        final float TAXA_RETORNA = (float) 76/1949;
         int indiceAborta;
+        int tempoRetorno;
+        Ligacao lig;
         //Se caiu na chance de abortar uma ligação (com base na quantidade total de ligações nesta situação)
-        if(generator_abortaLig.nextFloat() < (85/1949)){
+        if(!ligEspera.isEmpty() && generator_abortaLig.nextFloat() < (TAXA_ABORTA)){
             //Seleciona aleatoriamente uma das ligações em espera
             indiceAborta = (int) generator_abortaEscolheLig.nextFloat()*ligEspera.size();
+            tempoRetorno = (int) geraRandomExp(generator_abortaTempoRetorno, 3.24, 170);
             //Se está no grupo de ligações que pode retornar posteriormente
-            if(generator_abortaLig.nextFloat() < (76/1949)){
-                ligRetornar.add(ligEspera.remove(indiceAborta));
+            if(generator_abortaLig.nextFloat() < (TAXA_RETORNA)){
+                lig = new Ligacao(new Date(cal.getTimeInMillis() + tempoRetorno), ligEspera.remove(indiceAborta));
+                ligRetornar.add(lig);
             }else{
                 ligAbortadas.add(ligEspera.remove(indiceAborta));
             }
+            return true;
         }
+        return false;
     }
 
     //Seleciona ligações abortadas e gera novo registro de ligação (cliente retoma ligação abortada anteriormente)
     private void recriaLig(){
+        Iterator<Ligacao> iter;
+        if(!ligRetornar.isEmpty()){
+            iter = ligRetornar.iterator();
+            while (iter.hasNext()) {
+                Ligacao lig = iter.next();
+                //Se já chegou na hora desta ligação abortada voltar para a fila (cliente ligou de volta)
+                if(lig.getInicio().before(cal.getTime())){
+                    //Insere uma nova ligação na fila de espera e na lista geral de ligações criadas
+                    ligEspera.add(lig);
+                    ligGeral.add(lig);
+                    //Retira da lista de ligações a retornar
+                    iter.remove();
+                }
+            }            
+        }
+    }
 
+    private void liberaTecnico() {
+        //Encontra técnicos para liberá-los
+        for(Tecnico tec : tecnicos){
+            //Se o técnico está com ligação em andamento
+            if(!tec.isDisponivel()){
+                //Se já chegou na data/hora que o técnico ficou disponível para atendimentos novamente
+                if(!cal.getTime().before(tec.getInicioDisponibilidade())){
+                    tec.setDisponivel();
+                }
+            }
+        }
     }
 
     private void encerraLig(){
@@ -174,36 +252,45 @@ public class Simulador {
         //Encontra técnicos para encerrar ligações
         for(Tecnico tec : tecnicos){
             //Se o técnico está com ligação em andamento
-            if(tec.isOcupado()){
+            if(tec.isAtendendo()){
                 lig = tec.getLig();
+                float tempoRegistro = lig.getDuracao() * taxaRegistro * 1000;
                 //Incrementa o tempo que o técnico ficou ocupado com base no tempo que durou a ligação (tempo de registro)
-                finalCalc = new Date(lig.getFimAtend().getTime() + lig.getDuracao()*100);
+                finalCalc = new Date(lig.getFimAtend().getTime() + (int) tempoRegistro );
                 //Se já chegou na data/hora do final do atendimento
                 if(!cal.getTime().before(finalCalc)){
                     //Vincula a ligação na lista dos atendimentos concluídos
                     ligEncerradas.add(tec.getLig());
                     tec.desliga();
-
+                    if(generator_tecnicoAtivo.nextFloat()> (taxaAtend)){
+                        tec.setIndisponivel(cal.getTime(), DURACAO_INDISPONIBILIDADE);
+                    }
                 }
             }
         }
     }
 
     private void atendeLig(){
+        boolean turnoManha = false;
+        boolean turnoTarde = false;
+        //Se está no turno da manhã
+        if (horaAtual > iniAtendimentos && horaAtual < fimAtendimentos){
+            turnoManha = true;
+        }
+        //Se está no turno da tarde
+        if (horaAtual > iniAtendimentosTarde && horaAtual < fimAtendimentosTarde){
+            turnoTarde = true;
+        }
         //Se a hora atual pertence ao intervalo em que houve atendimento de ligações
-        if ((horaAtual > INI_ATENDIMENTOS && horaAtual < FIM_ATENDIMENTOS_MANHA) ||
-            (horaAtual > INI_ATENDIMENTOS_TARDE)) {
-//        if ((horaAtual > INI_ATENDIMENTOS && horaAtual < FIM_ATENDIMENTOS_MANHA) ||
-//            (horaAtual > INI_ATENDIMENTOS_TARDE && horaAtual < FIM_ATENDIMENTOS)) {
-
-//            test.add((double) ligEspera.size());
+        if (turnoManha || turnoTarde) {
             //Se há ligações em espera
             if(!ligEspera.isEmpty()){
-
                 //Encontra um técnico livre que possa atender
                 for(Tecnico tec : tecnicos){
                     //Se o técnico está livre e está atendendo
-                    if(!tec.isOcupado() && generator_tecnicoAtivo.nextFloat()<0.47){
+                    if(tec.isLivre() && ((tec.atendeManha() && turnoManha) || (tec.atendeTarde() && turnoTarde))){
+                        //Seleciona ligações em espera e aborta se necessário (cliente desiste da ligação atual)
+                        if(abortaLig())break;
                         //Gera distribuição para o valor de duração da ligação, em milissegundos
                         double duraLigSeg = geraDuracaoLigacao();
                         //Remove a ligação da lista de espera e define o horário previsto para o final da ligação
@@ -218,7 +305,7 @@ public class Simulador {
         }
     }
 
-    //Gera distribuição da duração das ligações em dois intervalos, um exponencial crescente e outro decrescente
+    //Gera distribuição da duração das ligações em três intervalos, um exponencial crescente, um decrescente e outro contínuo
     private double geraDuracaoLigacao(){
         //Ponto de corte entre as duas distribuições, de 0 até 1
         final double SPLIT_1 = 0.1;
@@ -226,7 +313,7 @@ public class Simulador {
         //Valor máximo do ponto de corte
         final int MINUTE_SPLIT = 240;
         double duraLigCalc;
-        //Divide a distribuição em duas seções
+        //Divide a distribuição em três seções
         if(generator_duraLig.nextFloat() < SPLIT_1){
             duraLigCalc = MINUTE_SPLIT * Math.log(1 - (1 - Math.exp(6)) * generator_duraLigLin.nextFloat()) / 6;
         }else{
@@ -244,16 +331,9 @@ public class Simulador {
         //Distribuição Exponencial
         // -ln(1 - (1 - exp(-λ)) * U) / λ
         float random_exp = gerador.nextFloat();
-        //Calculca com base no máximo valor possível e na taxa de queda que definirá tmbém a média
+        //Calcula com base no máximo valor possível e na taxa de queda que definirá tmbém a média
         double exp = -1 * Math.log(1 - (1 - Math.exp(-ref_media)) * random_exp) / ref_media;
         return exp * max;
-    }
-
-    //Esta rotina é usada para testar a geração de algum ponto qualquer do simulador
-    private void estatisticaTestes(){
-        Double[] vect = new Double[test.size()];
-        test.toArray(vect);
-        new Histogram( vect, 100, "Testes");
     }
 
     private void estatisticaLigacoes(){
@@ -318,7 +398,5 @@ public class Simulador {
         Double[] vect = new Double[data.size()];
         data.toArray(vect);
         new Histogram( vect, 100, "Tempo de espera até atendimento (minutos)");
-
     }
-
 }

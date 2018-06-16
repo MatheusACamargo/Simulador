@@ -1,5 +1,4 @@
 
-import java.time.Duration;
 import java.util.Date;
 
 /*
@@ -24,7 +23,7 @@ public class Ligacao {
         this.inicio = inicio;
         prilig = orig.getPrilig();
     }
-    
+
     public void atende(Date iniAtend, long duracao){
         this.iniAtend = iniAtend;
         this.duracao = duracao;
@@ -52,5 +51,5 @@ public class Ligacao {
         return fimAtend;
     }
 
-    
+
 }

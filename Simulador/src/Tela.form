@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="Simulador de Atendimentos"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jIniLigacoes" pref="55" max="32767" attributes="0"/>
+                                  <Component id="jIniAtendimentos" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jFimLigacoes" alignment="0" min="-2" pref="59" max="-2" attributes="0"/>
+                                  <Component id="jFimAtendimentos" alignment="0" min="-2" pref="59" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jNumTecnicos" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="jTaxaAtend" alignment="1" min="-2" pref="59" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
+                              <Component id="jEstagManha" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                      <Component id="jEstagTarde" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jIniLigacoesTarde" max="32767" attributes="0"/>
+                                          <Component id="jIniAtendimentosTarde" min="-2" pref="66" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jFimLigacoesTarde" max="32767" attributes="0"/>
+                                          <Component id="jFimAtendimentosTarde" min="-2" pref="59" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jZeraFila" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="3" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jTaxaRegistro" min="-2" pref="53" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jPadroes" min="-2" pref="203" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSimular" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSemente" min="-2" pref="53" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jIniLigacoes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jIniAtendimentos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jFimLigacoes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jIniLigacoesTarde" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jFimAtendimentos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jIniAtendimentosTarde" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jFimLigacoesTarde" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jFimAtendimentosTarde" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jNumTecnicos" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jZeraFila" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jTaxaAtend" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTaxaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jEstagManha" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jEstagTarde" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jSemente" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jPadroes" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jSimular" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JTextField" name="jIniAtendimentosTarde">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="130200"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do in&#xed;cio dos atendimentos da tarde (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jFimAtendimentosTarde">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="173200"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do fim dos atendimentos da tarde (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jNumTecnicos">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="3"/>
+        <Property name="toolTipText" type="java.lang.String" value="Quantidade de t&#xe9;cnicos dispon&#xed;veis para atendimentos"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="N&#xba; de t&#xe9;cnicos"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTaxaAtend">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0.47"/>
+        <Property name="toolTipText" type="java.lang.String" value="Taxa de tempo em que o t&#xe9;cnico est&#xe1; dispon&#xed;vel para atender (de 0 at&#xe9; 1)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Taxa atendimento"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTaxaRegistro">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0.1"/>
+        <Property name="toolTipText" type="java.lang.String" value="Taxa de tempo que o t&#xe9;cnico demora para registrar o atendimento (de 0 at&#xe9; 1 em rela&#xe7;&#xe3;o ao tempo do atendimento)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tempo registro"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jZeraFila">
+      <Properties>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" value="Inicia fila a cada dia"/>
+        <Property name="toolTipText" type="java.lang.String" value="Desconsidera hor&#xe1;rio final de atendimentos, atendendo at&#xe9; esgotar a fila"/>
+        <Property name="horizontalTextPosition" type="int" value="4"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jSimular">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Simular"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSimularActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jIniLigacoes">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="075112"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do in&#xed;cio das liga&#xe7;&#xf5;es da manh&#xe3; (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Turno liga&#xe7;&#xf5;es"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jFimLigacoes">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="113741"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do fim das liga&#xe7;&#xf5;es da manh&#xe3; (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jIniLigacoesTarde">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="130127"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do in&#xed;cio das liga&#xe7;&#xf5;es da tarde (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jFimLigacoesTarde">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="173038"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do fim das liga&#xe7;&#xf5;es da tarde (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jIniAtendimentos">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="080100"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do in&#xed;cio dos atendimentos da manh&#xe3; (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Turno atendimentos"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jFimAtendimentos">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="115100"/>
+        <Property name="toolTipText" type="java.lang.String" value="Hor&#xe1;rio do fim dos atendimentos da manh&#xe3; (hhmmss)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jPadroes">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Restaurar padr&#xf5;es"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jPadroesActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jEstagManha">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Estagi&#xe1;rio manh&#xe3;"/>
+        <Property name="horizontalTextPosition" type="int" value="4"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jEstagTarde">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Estagi&#xe1;rio tarde"/>
+        <Property name="horizontalTextPosition" type="int" value="4"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Semente"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jSemente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="50"/>
+        <Property name="toolTipText" type="java.lang.String" value="Semente para n&#xfa;mero aleat&#xf3;rio da simula&#xe7;&#xe3;o. Zerado para gerar semente aleat&#xf3;ria"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
